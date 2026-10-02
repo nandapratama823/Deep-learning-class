@@ -1,0 +1,97 @@
+[
+  {
+    "file": "airline_stats.csv",
+    "bytes": 1818294,
+    "sha256": "4c1c338cc4a162af42bb0872642e1e2726aadd9c2ff70126aa16fd6198a0c4ae"
+  },
+  {
+    "file": "click_rates.csv",
+    "bytes": 158,
+    "sha256": "3d77d6bdef9963ec5dd5c0c9054f3345ca3059e246b57f766f371e2a141f7885"
+  },
+  {
+    "file": "dfw_airline.csv",
+    "bytes": 92,
+    "sha256": "73bbfbbe93b8d1f349486b4a44a57617a23bb5a92a1bed4b416930b71212a7a0"
+  },
+  {
+    "file": "four_sessions.csv",
+    "bytes": 249,
+    "sha256": "0dc54a338ffab7de3959f1aa0de9c4b340d237d9df23cb7ecd596ee956516d37"
+  },
+  {
+    "file": "full_train_set.csv.gz",
+    "bytes": 2968459,
+    "sha256": "8e28117e1933b3ccda73b7415ceb438c951ff3cc7fd1c83a621e160d9c00a7eb"
+  },
+  {
+    "file": "house_sales.csv",
+    "bytes": 3567850,
+    "sha256": "1e702c654cd643594902871ef4e744ae4813b80e0802a9eb267dcfcb9f2981c4"
+  },
+  {
+    "file": "housetasks.csv",
+    "bytes": 306,
+    "sha256": "02a0971742e2169950565b8e5275b26a16a00b06e3b6c142e11334ccd4437205"
+  },
+  {
+    "file": "imanishi_data.csv",
+    "bytes": 75,
+    "sha256": "667cf061c2dfc31a59b68dbc5f2ff4662ded27055e5fb8fc9d8977d95748ebd2"
+  },
+  {
+    "file": "kc_tax.csv.gz",
+    "bytes": 2346023,
+    "sha256": "40fcfd77860a2ac8c62f8633e5937ee4acddded088095f3c144d46b8977dec7d"
+  },
+  {
+    "file": "lc_loans.csv",
+    "bytes": 5313850,
+    "sha256": "55dbb944ec18b9a06a60f82bbfd9ee2db6c13110abbffde43b3b585d87d42671"
+  },
+  {
+    "file": "loan200.csv",
+    "bytes": 4656,
+    "sha256": "d66134a505dc7f7d58990907656c603297ac88e2dfd87b3b95603f4276d66ea1"
+  },
+  {
+    "file": "loan3000.csv",
+    "bytes": 165168,
+    "sha256": "99ecb667690e561d4ea02442c3cf126f5f96de69a47be20d5b16f5f90a5898ad"
+  },
+  {
+    "file": "loan_data.csv.gz",
+    "bytes": 1268457,
+    "sha256": "de10007e08c98cbe563c88711fde73ccdc882474544a7e5c3d2d22a2cda6d7e1"
+  },
+  {
+    "file": "loans_income.csv",
+    "bytes": 358339,
+    "sha256": "15a5d099a7009ff3c7211929376b8af6b81ca3e01bc0cca04ccc8dd58308ad8d"
+  },
+  {
+    "file": "LungDisease.csv",
+    "bytes": 832,
+    "sha256": "77d02b4f7ce07594ff450fefef8713ca6248d1b82e5ff15b9d1aa1d14c21edbf"
+  },
+  {
+    "file": "sp500_data.csv.gz",
+    "bytes": 21152050,
+    "sha256": "fb86ce1a70897800bee406a3c004254a731231041bb17aa4624e5fc3ab31cea7"
+  },
+  {
+    "file": "sp500_sectors.csv",
+    "bytes": 28965,
+    "sha256": "25e5e410225f93937c35b660d3c78bb62af16c3d644a72a471b50295cbf5146d"
+  },
+  {
+    "file": "state.csv",
+    "bytes": 1508,
+    "sha256": "1f7ffa9f2445c9512d7403bf8905187d262664afa7d9d5191cd83e011d96bc64"
+  },
+  {
+    "file": "web_page_data.csv",
+    "bytes": 477,
+    "sha256": "2a4a4200d761567f44766eca4caa6f0dc5fdcf380dca449ec106012449c17796"
+  }
+]

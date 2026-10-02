@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "notebooks": 7,
+  "code_cells": 266,
+  "executed_code_cells": 157,
+  "datasets_verified": 19,
+  "results": [
+    {
+      "notebook": "Bab_01.ipynb",
+      "code_cells": 42,
+      "error_outputs": 0
+    },
+    {
+      "notebook": "Bab_02.ipynb",
+      "code_cells": 20,
+      "error_outputs": 0
+    },
+    {
+      "notebook": "Bab_03.ipynb",
+      "code_cells": 35,
+      "error_outputs": 0
+    },
+    {
+      "notebook": "Bab_04.ipynb",
+      "code_cells": 60,
+      "error_outputs": 0
+    },
+    {
+      "notebook": "Bab_05.ipynb",
+      "code_cells": 38,
+      "error_outputs": 0
+    },
+    {
+      "notebook": "Bab_06.ipynb",
+      "code_cells": 35,
+      "error_outputs": 0
+    },
+    {
+      "notebook": "Bab_07.ipynb",
+      "code_cells": 36,
+      "error_outputs": 0
+    }
+  ],
+  "note": "Execution provenance is documented in docs/VALIDASI.md; this script inspects saved outputs and does not re-execute notebooks."
+}

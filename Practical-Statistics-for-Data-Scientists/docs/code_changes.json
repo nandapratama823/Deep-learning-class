@@ -1,0 +1,152 @@
+[
+  {
+    "chapter": 1,
+    "original_cell": 3,
+    "before": "try:\n    import common\n    DATA = common.dataDirectory()\nexcept ImportError:\n    DATA = Path().resolve() / 'data'",
+    "after": "DATA = next((p / 'data' for p in [Path.cwd(), *Path.cwd().parents] if (p / 'data' / 'state.csv').exists()), None)\nassert DATA is not None, 'Jalankan notebook dari folder repositori atau notebooks.'\nprint('Data:', DATA)"
+  },
+  {
+    "chapter": 2,
+    "original_cell": 3,
+    "before": "try:\n    import common\n    DATA = common.dataDirectory()\nexcept ImportError:\n    DATA = Path().resolve() / 'data'",
+    "after": "DATA = next((p / 'data' for p in [Path.cwd(), *Path.cwd().parents] if (p / 'data' / 'state.csv').exists()), None)\nassert DATA is not None, 'Jalankan notebook dari folder repositori atau notebooks.'\nprint('Data:', DATA)"
+  },
+  {
+    "chapter": 3,
+    "original_cell": 3,
+    "before": "try:\n    import common\n    DATA = common.dataDirectory()\nexcept ImportError:\n    DATA = Path().resolve() / 'data'",
+    "after": "DATA = next((p / 'data' for p in [Path.cwd(), *Path.cwd().parents] if (p / 'data' / 'state.csv').exists()), None)\nassert DATA is not None, 'Jalankan notebook dari folder repositori atau notebooks.'\nprint('Data:', DATA)"
+  },
+  {
+    "chapter": 3,
+    "original_cell": 18,
+    "before": "survivors = np.array([[200, 23739 - 200], [182, 22588 - 182]])\nchi2, p_value, df, _ = stats.chi2_contingency(survivors)\n\nprint(f'p-value for single sided test: {p_value / 2:.4f}')",
+    "after": "# Uji dua proporsi satu sisi: A > B; arah ditentukan sebelum melihat hasil.\nz_stat, p_value = sm.stats.proportions_ztest([200, 182], [23739, 22588], alternative='larger')\nprint(f'z = {z_stat:.4f}; p-value satu sisi = {p_value:.4f}')"
+  },
+  {
+    "chapter": 3,
+    "original_cell": 20,
+    "before": "res = stats.ttest_ind(session_times[session_times.Page == 'Page A'].Time, \n                      session_times[session_times.Page == 'Page B'].Time,\n                      equal_var=False)\nprint(f'p-value for single sided test: {res.pvalue / 2:.4f}')",
+    "after": "res = stats.ttest_ind(session_times[session_times.Page == 'Page A'].Time, \n                      session_times[session_times.Page == 'Page B'].Time,\n                      equal_var=False, alternative='less')\nprint(f'p-value for single sided test: {res.pvalue:.4f}')"
+  },
+  {
+    "chapter": 3,
+    "original_cell": 29,
+    "before": "res = stats.f_oneway(four_sessions[four_sessions.Page == 'Page 1'].Time, \n                     four_sessions[four_sessions.Page == 'Page 2'].Time,\n                     four_sessions[four_sessions.Page == 'Page 3'].Time,\n                     four_sessions[four_sessions.Page == 'Page 4'].Time)\nprint(f'F-Statistic: {res.statistic / 2:.4f}')\nprint(f'p-value: {res.pvalue / 2:.4f}')",
+    "after": "res = stats.f_oneway(four_sessions[four_sessions.Page == 'Page 1'].Time, \n                     four_sessions[four_sessions.Page == 'Page 2'].Time,\n                     four_sessions[four_sessions.Page == 'Page 3'].Time,\n                     four_sessions[four_sessions.Page == 'Page 4'].Time)\nprint(f'F-Statistic: {res.statistic:.4f}')\nprint(f'p-value: {res.pvalue:.4f}')"
+  },
+  {
+    "chapter": 3,
+    "original_cell": 34,
+    "before": "# Resampling approach\nbox = [1] * 34\nbox.extend([0] * 2966)\nrandom.shuffle(box)\n\ndef chi2(observed, expected):\n    pearson_residuals = []\n    for row, expect in zip(observed, expected):\n        pearson_residuals.append([(observe - expect) ** 2 / expect\n                                  for observe in row])\n    # return sum of squares\n    return np.sum(pearson_residuals)\n\nexpected_clicks = 34 / 3\nexpected_noclicks = 1000 - expected_clicks\nexpected = [expected_clicks, expected_noclicks]\nchi2observed = chi2(clicks.values, expected)\n\ndef perm_fun(box):\n    random.shuffle(box)\n    sample_clicks = [sum(box[0:1000]),\n                     sum(box[1000:2000]),\n                     sum(box[2000:3000])]\n    sample_noclicks = [1000 - n for n in sample_clicks]\n    return chi2([sample_clicks, sample_noclicks], expected)\n\nperm_chi2 = [perm_fun(box) for _ in range(2000)]\n\nresampled_p_value = sum(perm_chi2 > chi2observed) / len(perm_chi2)\nprint(f'Observed chi2: {chi2observed:.4f}')\nprint(f'Resampled p-value: {resampled_p_value:.4f}')",
+    "after": "# Resampling approach\nbox = [1] * 34\nbox.extend([0] * 2966)\nrandom.shuffle(box)\n\ndef chi2(observed, expected):\n    pearson_residuals = []\n    for row, expect in zip(observed, expected):\n        pearson_residuals.append([(observe - expect) ** 2 / expect\n                                  for observe in row])\n    # return sum of squares\n    return np.sum(pearson_residuals)\n\nexpected_clicks = 34 / 3\nexpected_noclicks = 1000 - expected_clicks\nexpected = [expected_clicks, expected_noclicks]\nchi2observed = chi2(clicks.values, expected)\n\ndef perm_fun(box):\n    random.shuffle(box)\n    sample_clicks = [sum(box[0:1000]),\n                     sum(box[1000:2000]),\n                     sum(box[2000:3000])]\n    sample_noclicks = [1000 - n for n in sample_clicks]\n    return chi2([sample_clicks, sample_noclicks], expected)\n\nperm_chi2 = [perm_fun(box) for _ in range(2000)]\n\nresampled_p_value = sum(np.asarray(perm_chi2) >= chi2observed) / len(perm_chi2)\nprint(f'Observed chi2: {chi2observed:.4f}')\nprint(f'Resampled p-value: {resampled_p_value:.4f}')"
+  },
+  {
+    "chapter": 3,
+    "original_cell": 37,
+    "before": "expected = [expected_clicks, expected_noclicks]\ndef sample_with_replacement(box):\n    sample_clicks = [sum(random.sample(box, 1000)),\n                     sum(random.sample(box, 1000)),\n                     sum(random.sample(box, 1000))]\n    sample_noclicks = [1000 - n for n in sample_clicks]\n    return chi2([sample_clicks, sample_noclicks], expected)\n\nperm_chi2 = [sample_with_replacement(box) for _ in range(2000)]\n\nresampled_p_value = sum(perm_chi2 > chi2observed) / len(perm_chi2)\nprint(f'Observed chi2: {chi2observed:.4f}')\nprint(f'Resampled p-value: {resampled_p_value:.4f}')",
+    "after": "expected = [expected_clicks, expected_noclicks]\ndef sample_with_replacement(box):\n    sample_clicks = [sum(random.choices(box, k=1000)),\n                     sum(random.choices(box, k=1000)),\n                     sum(random.choices(box, k=1000))]\n    sample_noclicks = [1000 - n for n in sample_clicks]\n    return chi2([sample_clicks, sample_noclicks], expected)\n\nperm_chi2 = [sample_with_replacement(box) for _ in range(2000)]\n\nresampled_p_value = sum(np.asarray(perm_chi2) >= chi2observed) / len(perm_chi2)\nprint(f'Observed chi2: {chi2observed:.4f}')\nprint(f'Resampled p-value: {resampled_p_value:.4f}')"
+  },
+  {
+    "chapter": 4,
+    "original_cell": 4,
+    "before": "try:\n    import common\n    DATA = common.dataDirectory()\nexcept ImportError:\n    DATA = Path().resolve() / 'data'",
+    "after": "DATA = next((p / 'data' for p in [Path.cwd(), *Path.cwd().parents] if (p / 'data' / 'state.csv').exists()), None)\nassert DATA is not None, 'Jalankan notebook dari folder repositori atau notebooks.'\nprint('Data:', DATA)"
+  },
+  {
+    "chapter": 5,
+    "original_cell": 3,
+    "before": "try:\n    import common\n    DATA = common.dataDirectory()\nexcept ImportError:\n    DATA = Path().resolve() / 'data'",
+    "after": "DATA = next((p / 'data' for p in [Path.cwd(), *Path.cwd().parents] if (p / 'data' / 'state.csv').exists()), None)\nassert DATA is not None, 'Jalankan notebook dari folder repositori atau notebooks.'\nprint('Data:', DATA)"
+  },
+  {
+    "chapter": 6,
+    "original_cell": 3,
+    "before": "try:\n    import common\n    DATA = common.dataDirectory()\nexcept ImportError:\n    DATA = Path().resolve() / 'data'",
+    "after": "DATA = next((p / 'data' for p in [Path.cwd(), *Path.cwd().parents] if (p / 'data' / 'state.csv').exists()), None)\nassert DATA is not None, 'Jalankan notebook dari folder repositori atau notebooks.'\nprint('Data:', DATA)"
+  },
+  {
+    "chapter": 6,
+    "original_cell": 7,
+    "before": "os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'",
+    "after": "# Tidak memerlukan pengabaian konflik OpenMP pada lingkungan yang diuji.\npass"
+  },
+  {
+    "chapter": 6,
+    "original_cell": 17,
+    "before": "loan3000 = pd.read_csv(LOAN3000_CSV)\n\npredictors = ['borrower_score', 'payment_inc_ratio']\noutcome = 'outcome'\n\nX = loan3000[predictors]\ny = loan3000[outcome]\n\nloan_tree = DecisionTreeClassifier(random_state=1, criterion='entropy',\n                                   min_impurity_decrease=0.003)\nloan_tree.fit(X, y)\nplotDecisionTree(loan_tree, feature_names=predictors, class_names=loan_tree.classes_)",
+    "after": "loan3000 = pd.read_csv(LOAN3000_CSV)\n\npredictors = ['borrower_score', 'payment_inc_ratio']\noutcome = 'outcome'\n\nX = loan3000[predictors]\ny = loan3000[outcome]\n\nloan_tree = DecisionTreeClassifier(random_state=1, criterion='entropy',\n                                   min_impurity_decrease=0.003)\nloan_tree.fit(X, y)\nfrom sklearn.tree import plot_tree\nplt.figure(figsize=(14, 7))\nplot_tree(loan_tree, feature_names=predictors, class_names=list(loan_tree.classes_), filled=True, fontsize=8)\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "chapter": 6,
+    "original_cell": 35,
+    "before": "xgb_df = X.copy()\nxgb_df['prediction'] = ['default' if p == 1 else 'paid off' for p in xgb.predict(X)]\nxgb_df['prob_default'] = xgb.predict_proba(X)[:, 0]\nprint(xgb_df.head())",
+    "after": "xgb_df = X.copy()\nxgb_df['prediction'] = ['default' if p == 1 else 'paid off' for p in xgb.predict(X)]\nxgb_df['prob_default'] = xgb.predict_proba(X)[:, list(xgb.classes_).index(1)]\nprint(xgb_df.head())"
+  },
+  {
+    "chapter": 6,
+    "original_cell": 40,
+    "before": "results = []\nfor ntree_limit in range(1, 250):\n    iteration_range = [1, ntree_limit + 1]\n    train_default = xgb_default.predict_proba(train_X, iteration_range=iteration_range)[:, 1]\n    train_penalty = xgb_penalty.predict_proba(train_X, iteration_range=iteration_range)[:, 1]\n    pred_default = xgb_default.predict_proba(valid_X, iteration_range=iteration_range)[:, 1]\n    pred_penalty = xgb_penalty.predict_proba(valid_X, iteration_range=iteration_range)[:, 1]\n    results.append({\n        'iterations': ntree_limit,\n        'default train': np.mean(abs(train_y - train_default) > 0.5),\n        'penalty train': np.mean(abs(train_y - train_penalty) > 0.5),\n        'default test': np.mean(abs(valid_y - pred_default) > 0.5),\n        'penalty test': np.mean(abs(valid_y - pred_penalty) > 0.5),\n    })\n\nresults = pd.DataFrame(results)\nprint(results.head())",
+    "after": "results = []\nfor ntree_limit in range(1, 250):\n    iteration_range = (0, ntree_limit + 1)\n    train_default = xgb_default.predict_proba(train_X, iteration_range=iteration_range)[:, 1]\n    train_penalty = xgb_penalty.predict_proba(train_X, iteration_range=iteration_range)[:, 1]\n    pred_default = xgb_default.predict_proba(valid_X, iteration_range=iteration_range)[:, 1]\n    pred_penalty = xgb_penalty.predict_proba(valid_X, iteration_range=iteration_range)[:, 1]\n    results.append({\n        'iterations': ntree_limit,\n        'default train': np.mean(abs(train_y - train_default) > 0.5),\n        'penalty train': np.mean(abs(train_y - train_penalty) > 0.5),\n        'default test': np.mean(abs(valid_y - pred_default) > 0.5),\n        'penalty test': np.mean(abs(valid_y - pred_penalty) > 0.5),\n    })\n\nresults = pd.DataFrame(results)\nprint(results.head())"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 3,
+    "before": "try:\n    import common\n    DATA = common.dataDirectory()\nexcept ImportError:\n    DATA = Path().resolve() / 'data'",
+    "after": "DATA = next((p / 'data' for p in [Path.cwd(), *Path.cwd().parents] if (p / 'data' / 'state.csv').exists()), None)\nassert DATA is not None, 'Jalankan notebook dari folder repositori atau notebooks.'\nprint('Data:', DATA)"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 17,
+    "before": "df = sp500_px.loc[sp500_px.index >= '2011-01-01', ['XOM', 'CVX']]\nkmeans = KMeans(n_clusters=4, n_init='auto').fit(df)\ndf['cluster'] = kmeans.labels_\nprint(df.head())",
+    "after": "df = sp500_px.loc[sp500_px.index >= '2011-01-01', ['XOM', 'CVX']]\nkmeans = KMeans(n_clusters=4, n_init=10, random_state=42).fit(df)\ndf['cluster'] = kmeans.labels_\nprint(df.head())"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 21,
+    "before": "syms = sorted(['AAPL', 'MSFT', 'CSCO', 'INTC', 'CVX', 'XOM', 'SLB', 'COP', \n               'JPM', 'WFC', 'USB', 'AXP', 'WMT', 'TGT', 'HD', 'COST'])\ntop_sp = sp500_px.loc[sp500_px.index >= '2011-01-01', syms]\nkmeans = KMeans(n_clusters=5, n_init='auto').fit(top_sp)",
+    "after": "syms = sorted(['AAPL', 'MSFT', 'CSCO', 'INTC', 'CVX', 'XOM', 'SLB', 'COP', \n               'JPM', 'WFC', 'USB', 'AXP', 'WMT', 'TGT', 'HD', 'COST'])\ntop_sp = sp500_px.loc[sp500_px.index >= '2011-01-01', syms]\nkmeans = KMeans(n_clusters=5, n_init=10, random_state=42).fit(top_sp)"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 26,
+    "before": "inertia = []\nfor n_clusters in range(2, 15):\n    kmeans = KMeans(n_clusters=n_clusters, random_state=0, n_init='auto').fit(top_sp)\n    inertia.append(kmeans.inertia_ / n_clusters)\ninertias = pd.DataFrame({'n_clusters': range(2, 15), 'inertia': inertia})\nax = inertias.plot(x='n_clusters', y='inertia')\nplt.xlabel('Number of clusters(k)')\nplt.ylabel('Average Within-Cluster Squared Distances')\nplt.ylim((0, 1.1 * inertias.inertia.max()))\nax.legend().set_visible(False)\n\nplt.tight_layout()\nplt.show()",
+    "after": "inertia = []\nfor n_clusters in range(2, 15):\n    kmeans = KMeans(n_clusters=n_clusters, random_state=0, n_init=10).fit(top_sp)\n    inertia.append(kmeans.inertia_ / n_clusters)\ninertias = pd.DataFrame({'n_clusters': range(2, 15), 'inertia': inertia})\nax = inertias.plot(x='n_clusters', y='inertia')\nplt.xlabel('Number of clusters(k)')\nplt.ylabel('Average Within-Cluster Squared Distances')\nplt.ylim((0, 1.1 * inertias.inertia.max()))\nax.legend().set_visible(False)\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 35,
+    "before": "mean = [0.5, -0.5]\ncov = [[1, 1], [1, 2]]\nprobability = [.5, .75, .95, .99]\ndef probLevel(p):\n    D = 1\n    return (1 - p) / (2 * math.pi * D)\nlevels = [probLevel(p) for p in probability]\n\nfig, ax = plt.subplots(figsize=(5, 5))\n\nx, y = np.mgrid[-2.8:3.8:.01, -5:4:.01]\npos = np.empty(x.shape + (2,))\npos[:, :, 0] = x; pos[:, :, 1] = y\nrv = multivariate_normal(mean, cov)\n\n\nCS = ax.contourf(x, y, rv.pdf(pos), cmap=cm.GnBu, levels=50)\nax.contour(CS, levels=levels, colors=['black'])\nax.plot(*mean, color='black', marker='o')\n\n\nplt.tight_layout()\nplt.show()",
+    "after": "mean = [0.5, -0.5]\ncov = [[1, 1], [1, 2]]\nprobability = [.5, .75, .95, .99]\ndef probLevel(p):\n    D = 1\n    return (1 - p) / (2 * math.pi * D)\nlevels = sorted(probLevel(p) for p in probability)\n\nfig, ax = plt.subplots(figsize=(5, 5))\n\nx, y = np.mgrid[-2.8:3.8:.01, -5:4:.01]\npos = np.empty(x.shape + (2,))\npos[:, :, 0] = x; pos[:, :, 1] = y\nrv = multivariate_normal(mean, cov)\n\n\nCS = ax.contourf(x, y, rv.pdf(pos), cmap=cm.GnBu, levels=50)\nax.contour(CS, levels=levels, colors=['black'])\nax.plot(*mean, color='black', marker='o')\n\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 37,
+    "before": "df = sp500_px.loc[sp500_px.index >= '2011-01-01', ['XOM', 'CVX']]\nmclust = GaussianMixture(n_components=2).fit(df)\nprint(mclust.bic(df))",
+    "after": "df = sp500_px.loc[sp500_px.index >= '2011-01-01', ['XOM', 'CVX']]\nmclust = GaussianMixture(n_components=2, random_state=42).fit(df)\nprint(mclust.bic(df))"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 41,
+    "before": "results = []\ncovariance_types = ['full', 'tied', 'diag', 'spherical']\nfor n_components in range(1, 9):\n    for covariance_type in covariance_types:\n        mclust = GaussianMixture(n_components = n_components, warm_start=True,\n                                 covariance_type = covariance_type)\n        mclust.fit(df)\n        results.append({\n            'bic': mclust.bic(df),\n            'n_components': n_components,\n            'covariance_type': covariance_type,\n        })\n        \nresults = pd.DataFrame(results)\n\ncolors = ['C0', 'C1', 'C2', 'C3']\nstyles = ['C0-','C1:','C0-.', 'C1--']\n\nfig, ax = plt.subplots(figsize=(4, 4))\nfor i, covariance_type in enumerate(covariance_types):\n    subset = results.loc[results.covariance_type == covariance_type, :]\n    subset.plot(x='n_components', y='bic', ax=ax, label=covariance_type, \n                kind='line', style=styles[i]) # , color=colors[i])\n\nplt.tight_layout()\nplt.show()",
+    "after": "results = []\ncovariance_types = ['full', 'tied', 'diag', 'spherical']\nfor n_components in range(1, 9):\n    for covariance_type in covariance_types:\n        mclust = GaussianMixture(n_components = n_components, warm_start=True, random_state=42,\n                                 covariance_type = covariance_type)\n        mclust.fit(df)\n        results.append({\n            'bic': mclust.bic(df),\n            'n_components': n_components,\n            'covariance_type': covariance_type,\n        })\n        \nresults = pd.DataFrame(results)\n\ncolors = ['C0', 'C1', 'C2', 'C3']\nstyles = ['C0-','C1:','C0-.', 'C1--']\n\nfig, ax = plt.subplots(figsize=(4, 4))\nfor i, covariance_type in enumerate(covariance_types):\n    subset = results.loc[results.covariance_type == covariance_type, :]\n    subset.plot(x='n_components', y='bic', ax=ax, label=covariance_type, \n                kind='line', style=styles[i]) # , color=colors[i])\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 43,
+    "before": "loan_data = pd.read_csv(LOAN_DATA_CSV)\nloan_data['outcome'] = pd.Categorical(loan_data['outcome'], \n                                      categories=['paid off', 'default'], \n                                      ordered=True)\ndefaults = loan_data.loc[loan_data['outcome'] == 'default',]\n\ncolumns = ['loan_amnt', 'annual_inc', 'revol_bal', 'open_acc', \n           'dti', 'revol_util']\n\ndf = defaults[columns]\nkmeans = KMeans(n_clusters=4, random_state=1, n_init='auto').fit(df)\ncounts = Counter(kmeans.labels_)\n\ncenters = pd.DataFrame(kmeans.cluster_centers_, columns=columns)\ncenters['size'] = [counts[i] for i in range(4)]\nprint(centers)",
+    "after": "loan_data = pd.read_csv(LOAN_DATA_CSV)\nloan_data['outcome'] = pd.Categorical(loan_data['outcome'], \n                                      categories=['paid off', 'default'], \n                                      ordered=True)\ndefaults = loan_data.loc[loan_data['outcome'] == 'default',]\n\ncolumns = ['loan_amnt', 'annual_inc', 'revol_bal', 'open_acc', \n           'dti', 'revol_util']\n\ndf = defaults[columns]\nkmeans = KMeans(n_clusters=4, random_state=1, n_init=10).fit(df)\ncounts = Counter(kmeans.labels_)\n\ncenters = pd.DataFrame(kmeans.cluster_centers_, columns=columns)\ncenters['size'] = [counts[i] for i in range(4)]\nprint(centers)"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 44,
+    "before": "scaler = preprocessing.StandardScaler()\ndf0 = scaler.fit_transform(df * 1.0)\n\nkmeans = KMeans(n_clusters=4, random_state=1, n_init='auto').fit(df0)\ncounts = Counter(kmeans.labels_)\n\ncenters = pd.DataFrame(scaler.inverse_transform(kmeans.cluster_centers_), \n                       columns=columns)\ncenters['size'] = [counts[i] for i in range(4)]\nprint(centers)",
+    "after": "scaler = preprocessing.StandardScaler()\ndf0 = scaler.fit_transform(df * 1.0)\n\nkmeans = KMeans(n_clusters=4, random_state=1, n_init=10).fit(df0)\ncounts = Counter(kmeans.labels_)\n\ncenters = pd.DataFrame(scaler.inverse_transform(kmeans.cluster_centers_), \n                       columns=columns)\ncenters['size'] = [counts[i] for i in range(4)]\nprint(centers)"
+  },
+  {
+    "chapter": 7,
+    "original_cell": 52,
+    "before": "columns = ['dti', 'payment_inc_ratio', 'home_', 'pub_rec_zero']\ndf = pd.get_dummies(defaults[columns])\n\nscaler = preprocessing.StandardScaler()\n\ndf0 = scaler.fit_transform(df * 1.0)\nkmeans = KMeans(n_clusters=4, random_state=1, n_init='auto').fit(df0)\ncenters = pd.DataFrame(scaler.inverse_transform(kmeans.cluster_centers_), \n                       columns=df.columns)\nprint(centers)",
+    "after": "columns = ['dti', 'payment_inc_ratio', 'home_', 'pub_rec_zero']\ndf = pd.get_dummies(defaults[columns])\n\nscaler = preprocessing.StandardScaler()\n\ndf0 = scaler.fit_transform(df * 1.0)\nkmeans = KMeans(n_clusters=4, random_state=1, n_init=10).fit(df0)\ncenters = pd.DataFrame(scaler.inverse_transform(kmeans.cluster_centers_), \n                       columns=df.columns)\nprint(centers)"
+  }
+]
