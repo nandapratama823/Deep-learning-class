@@ -1,0 +1,37 @@
+[
+  {
+    "file": "ham.txt.gz",
+    "bytes": 5194852,
+    "sha256": "06ade7834e27c2ad8079e341ee94a1b002a59e6838cf529b5b2cfaaf366e9307"
+  },
+  {
+    "file": "labels.txt",
+    "bytes": 250000,
+    "sha256": "843c3bfa96b7f9c1fe7877567fe518805d55d5c3ee38ec02243eb66cf9642ec0"
+  },
+  {
+    "file": "mnist.npz",
+    "bytes": 11490434,
+    "sha256": "731c5ac602752760c8e48fbffcf8c3b850d9dc2a2aedcf2cc48468fc17b673d1"
+  },
+  {
+    "file": "qa1_single-supporting-fact_train.txt",
+    "bytes": 97346,
+    "sha256": "7bff8be9fad4b41f2998b1db9010bf5ac78e7e0fb1f74429ba7c4b5c3a25d1f6"
+  },
+  {
+    "file": "reviews.txt.gz",
+    "bytes": 12207377,
+    "sha256": "9e64cb68d941caf3cfb5c4d79d0ef538d3cb2a27b86567a77e6e84b1c1ad1bf8"
+  },
+  {
+    "file": "shakespear.txt",
+    "bytes": 103291,
+    "sha256": "c2949bc9fb54f7fa8a9f2659d2ae801334e5477089ddeb1784af82dc09a9054b"
+  },
+  {
+    "file": "spam.txt.gz",
+    "bytes": 3796318,
+    "sha256": "a9c574710bd80fa60e0f090e4e11b3cb1620c72f79b5c7eafccbab3f7f7ad6f1"
+  }
+]
